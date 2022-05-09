@@ -14,9 +14,10 @@ namespace TelegramSupport
         private     string url    = String.Empty;
         private HttpClient hc     = new(); // позволяет ходить в интернеты
 
-        public             string Answer    = String.Empty;
-        public            JObject JSON      = new();
-        public List<ModelMessage> messages  = new();
+        public             string Answer   = String.Empty;
+        public             string SendMsg  = String.Empty;
+        public            JObject JSON     = new();
+        public List<ModelMessage> messages = new();
 
 
         public Bot(string _token)
@@ -61,6 +62,11 @@ namespace TelegramSupport
 
                 messages.Add(mm);
             }
+        }
+
+        public void SendMessage(ModelMessage mm, string text)
+        {
+            SendMsg = $"{url}sendmessage?chat_id={mm.UserID}&text={text}";
         }
 
         void GetReceivedProperties(string property = "ok") =>
