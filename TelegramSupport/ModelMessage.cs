@@ -8,10 +8,10 @@ namespace TelegramSupport
 {
     class ModelMessage
     {
-        public string IdMessage;
-        public string UserID;
-        public string UserName;
-        public string MessageText;
+        public string IdMessage   = String.Empty;
+        public string UserID      = String.Empty;
+        public string UserName    = String.Empty;
+        public string MessageText = String.Empty;
         
         public string ToReadMessage()
         {

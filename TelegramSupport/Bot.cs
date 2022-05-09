@@ -17,7 +17,7 @@ namespace TelegramSupport
         public             string Answer   = String.Empty;
         public             string SendMsg  = String.Empty;
         public            JObject JSON     = new();
-        public List<ModelMessage> messages = new();
+        public List<ModelMessage> messages = new(); // TODO Check security
 
 
         public Bot(string _token)
@@ -56,7 +56,7 @@ namespace TelegramSupport
                 mm.IdMessage   = item["update_id"]!.ToString();
                 mm.UserID      = item["message"]!["from"]!["id"]!.ToString();
                 mm.UserName    = item["message"]!["from"]!["first_name"]!.ToString()
-                                 + " " +
+                                                      + " " +
                                  item["message"]!["from"]!["last_name"]!.ToString();
                 mm.MessageText = item["message"]!["text"]!.ToString();
 
