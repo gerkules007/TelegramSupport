@@ -10,12 +10,11 @@ namespace TelegramSupport
         static void Main(string[] args)
         {
             string path = $"C:\\Users\\ovcse\\Desktop\\РАЗРАБОТЧИК\\ФАКУЛЬТАТИВЫ\\С# Telegram\\TelegramSupport\\TelegramSupport\\token.txt";
-            string TOKEN = File.ReadAllText(path);
+            string token = File.ReadAllText(path); //TODO Add Encoding
 
-            TelegramNetwork tn = new(TOKEN);
+            Bot bot = new(token);
 
-            tn.GetRequest();
-            Console.WriteLine(tn.TextAnswer);
+            bot.Start();
         }
     }
 }
