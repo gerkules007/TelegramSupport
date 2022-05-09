@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace TelegramSupport
 {
-    class Programm
+    class Program
     {
         static void Main(string[] args)
         {

@@ -10,52 +10,57 @@ namespace TelegramSupport
 {
     class Repository
     {
-        Dictionary<string, List<ModelMessage>> db = new();
+        Dictionary<string, List<ModelMessage>> dataBase = new();
 
-        public void Append(ModelMessage model)
+        public void Append(List<ModelMessage> lmm)
         {
-            var id = model.IdMessage;
-            if (db.ContainsKey(id))
+            foreach (ModelMessage model in lmm)
             {
-                db[id].Add(model);
-            }
-            else
-            {
-                db.Add(id, new List<ModelMessage>(new ModelMessage[] { model }));
+                var id = model.UserID;
+                if (dataBase.ContainsKey(id))
+                {
+                    dataBase[id].Add(model);
+                }
+                else
+                {
+                    dataBase.Add(id, new List<ModelMessage>( new ModelMessage[] { model } ));
+                }
             }
         }
 
         public Dictionary<string, List<ModelMessage>> Read()
         {
-            return db;
+            return dataBase;
         }
 
         public string GetString()
         {
             string data = String.Empty;
 
-
-            foreach (var item in db)
+            foreach (var item in dataBase)
             {
-                data += $"{item.Key} [{String.Join(", ", item.Value)}]\n";
+                data += $"{item.Key} [{  String.Join(", ", item.Value.Select(e => e.ToString()))  }] \n";
+
             }
             return $"{data}\n\n";
 
         }
 
-        public void Save()
+        public void Save(string info = "")
         {
-            File.WriteAllText($"SaveMessage{DateTime.Now.ToShortDateString}.json", JsonConvert.SerializeObject(db));
+            File.WriteAllText($"SaveMessages{info}.json", JsonConvert.SerializeObject(dataBase));
         }
 
-        public void Load(string fileName)
+        public void Load(string info = "")
         {
-            string file = File.ReadAllText ($"{  Directory.GetCurrentDirectory()  }\\{  fileName  }");
+            string file = $"SaveMessages{info}.json";
 
-            if (file != null)
+            if (File.Exists(file))
             {
-                db = (Dictionary<string, List<ModelMessage>>)   JsonConvert.DeserializeObject( file )!;
+                dataBase = JsonConvert.DeserializeObject<Dictionary<string, List<ModelMessage>>>(  File.ReadAllText(file)  )!;
             }
         }
+
+        // DateTime.Now.ToShortDateString
     }
 }

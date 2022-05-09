@@ -8,14 +8,14 @@ namespace TelegramSupport
 {
     class ModelMessage
     {
-        public string IdMessage   = String.Empty;
+        public string UpdateID    = String.Empty;
         public string UserID      = String.Empty;
         public string UserName    = String.Empty;
         public string MessageText = String.Empty;
         
-        public string ToReadMessage()
+        public override string ToString()
         {
-            return String.Format("{0,8} {1,15} {2}", IdMessage, UserName, MessageText);
+            return $"{UpdateID}, {UserName}, {MessageText}"; 
         }
     }
 }

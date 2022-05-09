@@ -17,7 +17,8 @@ namespace TelegramSupport
         public             string Answer   = String.Empty;
         public             string SendMsg  = String.Empty;
         public            JObject JSON     = new();
-        public List<ModelMessage> messages = new(); // TODO Check security
+        public List<ModelMessage> messages = new(); // TODO Check security for all
+                       Repository rep      = new();
 
 
         public Bot(string _token)
@@ -25,18 +26,27 @@ namespace TelegramSupport
             this.TOKEN = _token;
             url = $"https://api.telegram.org/bot{TOKEN}/";
         }
-        public void Start()
+        public void Start() // TODO создать отдельную сущность в виде контроллера
         {
-            while (true)
+            // TODO Добавить потоки
+            rep.Load();
+            Console.WriteLine("Enter to Start");
+
+            while (!Console.ReadKey().Key.Equals(ConsoleKey.S)) // TODO Поменять логику клавиш или Do While цикл
             {
                 GetRequest();
                 CreateModelMessage();
 
-                foreach (var message in messages) {
-                    Console.WriteLine(message.ToReadMessage()); }
+                /*foreach (var message in messages) {
+                    Console.WriteLine(message.ToReadMessage()); }*/
+                
+                rep.Append(messages);
+
+                Console.WriteLine(rep.GetString());
 
                 Thread.Sleep(2000);
             }
+            rep.Save();
         }
 
         void GetRequest() //TODO Change name
@@ -53,7 +63,7 @@ namespace TelegramSupport
             {
                 ModelMessage mm = new();
 
-                mm.IdMessage   = item["update_id"]!.ToString();
+                mm.UpdateID    = item["update_id"]!.ToString();
                 mm.UserID      = item["message"]!["from"]!["id"]!.ToString();
                 mm.UserName    = item["message"]!["from"]!["first_name"]!.ToString()
                                                       + " " +
